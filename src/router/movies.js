@@ -1,5 +1,6 @@
-import { TrendingMovie } from "../controllers/movies/index.js";
+import { RatingMovie, TrendingMovie } from "../controllers/movies/index.js";
 
 export default (router) => {
-  router.get("/movies", TrendingMovie);
+  router.get("/movies/trending", TrendingMovie);
+  router.get("/movies/top-rate/:page", RatingMovie);
 };

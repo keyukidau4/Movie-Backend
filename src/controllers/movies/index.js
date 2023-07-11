@@ -15,7 +15,7 @@ export const TrendingMovie = async (req, res) => {
     const results = await getPageData(data, currentPage, pageSize);
 
     res.status(200).send({
-      status: 200,
+      code: 200,
       data: {
         results,
         page: currentPage,
@@ -24,8 +24,45 @@ export const TrendingMovie = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).send({
-      status: 400,
+      code: 400,
       message: "Error",
+    });
+  }
+};
+
+export const RatingMovie = async (req, res) => {
+  const params = req.params.page;
+
+  try {
+    const data = Movie.all();
+    data.sort((a, b) => b.vote_average - a.vote_average);
+
+    const pageSize = 20;
+    const currentPage = params ? params : 1;
+    const totalPage = Math.ceil(data.length / pageSize);
+
+    if (params > totalPage) {
+      return res.status(400).send({
+        code: 400,
+        message: "Select Page is not in page size",
+      });
+    }
+
+    const response = await getPageData(data, currentPage, pageSize);
+
+    res.status(200).send({
+      code: 200,
+      data: {
+        results: response,
+        page: currentPage,
+        total_pages: totalPage,
+      },
+    });
+  } catch (error) {
+    console.log({ error });
+    res.status(500).send({
+      code: 500,
+      message: "Server Error!",
     });
   }
 };
