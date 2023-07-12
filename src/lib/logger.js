@@ -1,6 +1,5 @@
 import { existsSync, mkdirSync } from "fs";
-import { Logger } from "winston";
-const winston = require("winston");
+import winston from "winston";
 
 const logDir = "./logs";
 
