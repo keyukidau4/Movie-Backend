@@ -3,6 +3,7 @@ import { getPageData } from "../../utils/pageData.js";
 
 import logger from "../../lib/logger.js";
 import Genres from "../../models/genre.js";
+import Videos from "../../models/video.js";
 
 //lâý phim theo Top Trending, trả về 20 record và số lượng page có
 export const TrendingMovie = async (req, res) => {
@@ -125,5 +126,70 @@ export const GenreMovie = async (req, res) => {
     });
 
     return;
+  }
+};
+
+//Lâý video trailer của phim
+export const TrailerMovie = async (req, res) => {
+  try {
+    const filmId = parseInt(req.body.film_id);
+
+    if (!filmId) {
+      return res.status(400).send({
+        code: 400,
+        message: "Not found film_id",
+      });
+    }
+
+    const videoData = await Videos.all();
+    const typeString = "Trailer Teaser";
+    const videoForId = await videoData.find((video) => video.id === filmId);
+
+    if (!videoForId) {
+      return res.status(404).send({
+        code: 404,
+        message: "Not found video",
+      });
+    }
+    const videos = videoForId.videos;
+
+    const getVideo = await videos.filter(
+      (video) =>
+        video.official === true &&
+        video.site === "YouTube" &&
+        typeString.includes(video.type)
+    );
+
+    let trailerVideo = await getVideo.filter(
+      (video) => video.type === "Trailer"
+    );
+
+    if (trailerVideo.length === 0) {
+      trailerVideo = await getVideo.filter((video) => video.type === "Teaser");
+    }
+
+    if (trailerVideo.length === 0) {
+      return res.status(404).send({
+        code: 404,
+        message: "Not Found Video",
+      });
+    }
+
+    trailerVideo.sort((a, b) => b.published_at - a.published_at);
+
+    logger.info({ trailerVideo });
+
+    return res.status(200).send({
+      code: 200,
+      message: "Get Video Successfully",
+      results: trailerVideo[0],
+    });
+  } catch (error) {
+    logger.info({ error });
+
+    return res.status(500).send({
+      code: 500,
+      message: "Server Error",
+    });
   }
 };
