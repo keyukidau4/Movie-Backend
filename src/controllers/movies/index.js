@@ -193,3 +193,62 @@ export const TrailerMovie = async (req, res) => {
     });
   }
 };
+
+//Lấy video theo search keyword
+export const SearchMovie = async (req, res) => {
+  const keyword = req.body.keyword;
+  const page = req.body.page;
+
+  logger.info(`keyword: ${keyword}, page:${page}`);
+
+  if (!keyword) {
+    return res.status(400).send({
+      code: 400,
+      message: "Not found keyword param",
+    });
+  }
+
+  try {
+    const movieData = await Movie.all();
+
+    const movieByKeyword = await movieData.filter(
+      (movie) =>
+        movie.overview?.toLowerCase().includes(keyword.toLowerCase()) ||
+        movie.title?.toLowerCase().includes(keyword.toLowerCase())
+    );
+
+    const pageSize = 20;
+    const currentPage = page ? page : 1;
+    const totalPage = Math.ceil(movieByKeyword.length / pageSize);
+
+    if (page > totalPage) {
+      logger.error(
+        `Error With keyword: ${keyword}, page:${page} , Message: Page is not in Total Page , page: ${page} / total_page: ${totalPage}`
+      );
+      return res.status(400).send({
+        code: 400,
+        message: "Page is not in Total Page",
+      });
+    }
+
+    const getDataForPage = await getPageData(
+      movieByKeyword,
+      currentPage,
+      pageSize
+    );
+
+    return res.status(200).send({
+      code: 200,
+      message: "Successfully!",
+      results: getDataForPage,
+      total_pages: totalPage,
+    });
+  } catch (error) {
+    logger.error({ error });
+
+    return res.status(500).send({
+      code: 500,
+      message: "Server Error!",
+    });
+  }
+};
