@@ -1,0 +1,484 @@
+openapi: 3.0.0
+info:
+  title: API Đăng nhập người dùng
+  version: 1.0.0
+  description: Mô tả API đăng nhập người dùng trong dự án Node.js
+
+paths:
+  /api/movies/trending/{page}/{language}:
+    get:
+      summary: "Get Trending Movie"
+      tags:
+        - Trending
+      parameters:
+        - in: path
+          required: true
+          name: page
+          schema:
+            type: integer
+          example: 2
+          description: "Thứ tự trang dữ liệu muốn lấy"
+        - in: path
+          required: true
+          name: language
+          schema:
+            type: string
+          example: "ja"
+          description: "Ngôn ngữ phim muốn lấy"
+      responses:
+        "200":
+          description: Get Trending movie Successfully!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Get Trending movie Successfully!"
+                  data:
+                    type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            adult:
+                              type: boolean
+                            backdrop_path:
+                              type: string
+                            id:
+                              type: integer
+                            title:
+                              type: string
+                            original_language:
+                              type: string
+                            original_title:
+                              type: string
+                            overview:
+                              type: string
+                            poster_path:
+                              type: string
+                            media_type:
+                              type: string
+                            genre_ids:
+                              type: array
+                              items:
+                                type: string
+                            popularity:
+                              type: number
+                            release_date:
+                              type: string
+                            video:
+                              type: boolean
+                            vote_average:
+                              type: number
+                            vote_count:
+                              type: integer
+                      page:
+                        type: integer
+                        example: 2
+                      total_pages:
+                        type: integer
+                        example: 20
+        "500":
+          description: "Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: "Server Error"
+  /movies/top-rate/{page}:
+    get:
+      summary: "Get Top Rating Movie For vote average"
+      tags:
+        - Rating
+      parameters:
+        - in: path
+          required: true
+          name: page
+          schema:
+            type: integer
+          example: 2
+          description: "Thứ tự trang dữ liệu muốn lấy"
+      responses:
+        "200":
+          description: Get Trending movie Successfully!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Get Trending movie Successfully!"
+                  data:
+                    type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            adult:
+                              type: boolean
+                            backdrop_path:
+                              type: string
+                            id:
+                              type: integer
+                            title:
+                              type: string
+                            original_language:
+                              type: string
+                            original_title:
+                              type: string
+                            overview:
+                              type: string
+                            poster_path:
+                              type: string
+                            media_type:
+                              type: string
+                            genre_ids:
+                              type: array
+                              items:
+                                type: string
+                            popularity:
+                              type: number
+                            release_date:
+                              type: string
+                            video:
+                              type: boolean
+                            vote_average:
+                              type: number
+                            vote_count:
+                              type: integer
+                      page:
+                        type: integer
+                        example: 2
+                      total_pages:
+                        type: integer
+                        example: 20
+        "500":
+          description: "Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: "Server Error"
+  /movies/discover/:page/:genre:
+    get:
+      summary: "Get films for genre"
+      tags:
+        - Discover
+      parameters:
+        - in: path
+          required: true
+          name: page
+          schema:
+            type: integer
+            example: 2
+          description: "Thứ tự trang dữ liệu muốn lấy"
+        - in: path
+          required: true
+          name: genre
+          schema:
+            type: integer
+            example: 18
+          description: "ID của thể loại muốn lấy"
+      responses:
+        "200":
+          description: Get Trending movie Successfully!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Get Trending movie Successfully!"
+                  data:
+                    type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            adult:
+                              type: boolean
+                            backdrop_path:
+                              type: string
+                            id:
+                              type: integer
+                            title:
+                              type: string
+                            original_language:
+                              type: string
+                            original_title:
+                              type: string
+                            overview:
+                              type: string
+                            poster_path:
+                              type: string
+                            media_type:
+                              type: string
+                            genre_ids:
+                              type: array
+                              items:
+                                type: string
+                            popularity:
+                              type: number
+                            release_date:
+                              type: string
+                            video:
+                              type: boolean
+                            vote_average:
+                              type: number
+                            vote_count:
+                              type: integer
+                      page:
+                        type: integer
+                        example: 2
+                      total_pages:
+                        type: integer
+                        example: 20
+                      genre_name:
+                        type: string
+                        example: "Adventure"
+        "500":
+          description: "Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: "Server Error"
+        "400":
+          description: "Not found gerne parram or genre id"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+  /movies/video:
+    post:
+      summary: "Post to get trailer of film from film_id"
+      tags:
+        - Trailer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                film_id:
+                  type: integer
+                  example: 18
+              required:
+                - film_id
+      responses:
+        "200":
+          description: Get Trending movie Successfully!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Get Trending movie Successfully!"
+                  results:
+                    type: object
+                    properties:
+                      iso_639_1:
+                        type: string
+                      iso_3166_1:
+                        type: string
+                      name:
+                        type: string
+                      key:
+                        type: string
+                      site:
+                        type: string
+                      size:
+                        type: integer
+                      type:
+                        type: string
+                      official:
+                        type: string
+                      published_at:
+                        type: string
+                      id:
+                        type: string
+        "500":
+          description: "Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: "Server Error"
+        "400":
+          description: "Not found film_id parram"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+        "404":
+          description: "Not found video"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+  /api/movies/search:
+    post:
+      summary: "Post Search Movie from keyword "
+      tags:
+        - Search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                keyword:
+                  type: string
+                  example: "superman"
+              required:
+                - keyword
+      responses:
+        "200":
+          description: "Successfully!"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            adult:
+                              type: boolean
+                            backdrop_path:
+                              type: string
+                            id:
+                              type: integer
+                            title:
+                              type: string
+                            original_language:
+                              type: string
+                            original_title:
+                              type: string
+                            overview:
+                              type: string
+                            poster_path:
+                              type: string
+                            media_type:
+                              type: string
+                            genre_ids:
+                              type: array
+                              items:
+                                type: string
+                            popularity:
+                              type: number
+                            release_date:
+                              type: string
+                            video:
+                              type: boolean
+                            vote_average:
+                              type: number
+                            vote_count:
+                              type: integer
+                      page:
+                        type: integer
+                        example: 2
+                      total_pages:
+                        type: integer
+                        example: 20
+        "500":
+          description: "Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: "Server Error"
+        "400":
+          description: "Not found keyword param"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 400
+                  message:
+                    type: string
+                    example: "Not found keyword param"
