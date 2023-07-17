@@ -8,24 +8,36 @@ import Videos from "../../models/video.js";
 //lâý phim theo Top Trending, trả về 20 record và số lượng page có
 export const TrendingMovie = async (req, res) => {
   try {
-    const page = req.body["page"];
+    const page = parseInt(req.params.page);
+    const language = req.params.language;
+
+    logger.info(`page: ${page} / language: ${language}`);
 
     const data = Movie.all();
     data.sort((a, b) => b.popularity - a.popularity);
 
+    let dataForLanguage = [];
+
+    if (language) {
+      dataForLanguage = data.filter(
+        (dataLanguage) => dataLanguage.original_language === language
+      );
+    }
+
+    const currentData = dataForLanguage.length > 1 ? dataForLanguage : data;
+
     const pageSize = 20;
-    const total_pages = Math.ceil(data.length / pageSize);
+    const total_pages = Math.ceil(currentData.length / pageSize);
     const currentPage = page ? page : 1;
 
-    const results = await getPageData(data, currentPage, pageSize);
+    const results = await getPageData(currentData, currentPage, pageSize);
 
     res.status(200).send({
       code: 200,
-      data: {
-        results,
-        page: currentPage,
-        total_pages,
-      },
+      message: "Get Trending movie Successfully!",
+      results,
+      page: currentPage,
+      total_pages,
     });
   } catch (error) {
     return res.status(400).send({
