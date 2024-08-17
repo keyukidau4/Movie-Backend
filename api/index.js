@@ -14,7 +14,7 @@ app.use(
     credentials: true,
     origin: [
       "http://localhost:3000",
-      "https://movie-frontend-bjjc9270k-keyukidau4s-projects.vercel.app",
+      "https://movie-frontend-flame.vercel.app",
     ],
   })
 );
