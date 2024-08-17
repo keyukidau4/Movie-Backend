@@ -6,9 +6,9 @@ const logDir = "./logs";
 const { combine, timestamp, label, printf, prettyPrint } = winston.format;
 const CATEGORY = "winston custom Log";
 
-if (!existsSync(logDir)) {
-  mkdirSync(logDir);
-}
+// if (!existsSync(logDir)) {
+//   mkdirSync(logDir);
+// }
 
 const customFormat = printf(({ level, message, label, timestamp }) => {
   return `${timestamp} [${label}] ${level}: ${message}`;
