@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  title: API Đăng nhập người dùng
+  title: Movie API
   version: 1.0.0
-  description: Mô tả API đăng nhập người dùng trong dự án Node.js
+  description: Movie API
 
 paths:
   /api/movies/trending/{page}/{language}:
