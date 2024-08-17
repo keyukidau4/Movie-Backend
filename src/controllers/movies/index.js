@@ -1,7 +1,6 @@
 import Movie from "../../models/movies.js";
 import { getPageData } from "../../utils/pageData.js";
 
-import logger from "../../lib/logger.js";
 import Genres from "../../models/genre.js";
 import Videos from "../../models/video.js";
 
